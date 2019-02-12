@@ -9,15 +9,17 @@ namespace FysikLabb0 {
         SpriteBatch spriteBatch;
         Texture2D spriteSheet;
         int screenWidth, screenHeight, startX, startY;
-        Rectangle ballRect, testRect;
+        Rectangle ballRect;
+        Vector2 testPos;
         List<Ball> ballList;
         Ball ball;
+        Conversions conver;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             screenWidth = 1900;
-            screenHeight = 1080;
+            screenHeight = 1000;
             IsMouseVisible = true;
             startX = 100;
             startY = 900;
@@ -36,26 +38,25 @@ namespace FysikLabb0 {
             if(ballList.Count == 0) {
                 CreateBall();
             }
-            foreach (Ball ball in ballList) {
-                ball.Update();
-            }
+            ball.Update(gameTime);
             
             base.Update(gameTime);
         }
 
         public void CreateBall() {
-            ball = new Ball(spriteSheet, ballRect);
+            ball = new Ball(spriteSheet, ballRect, this);
             ballList.Add(ball);
         }
 
-        public void DestroyBall(Rectangle posRect) {
-            foreach (Ball ball in ballList) {
-                testRect = ball.GetRect();
-                if(testRect == posRect) {
-                    ballList.Remove(ball);
-                    break;
-                }
-            }
+        public void DestroyBall(Vector2 posRect) {
+            ballList.Clear();
+            //foreach (Ball ball in ballList) {
+            //    testPos = ball.GetPos();
+            //    if(testPos.X == posRect.X && testPos.Y == posRect.Y) {
+            //        ballList.Remove(ball);
+            //        break;
+            //    }
+            //}
 
         }
 
@@ -81,9 +82,11 @@ namespace FysikLabb0 {
  * Skapa bollenklassen - Done
  * implementera bollen i skärmen med startvärden och att dessa värden kan ändras med höger musknapp - Done
  * implementera huden med klickbara rutor som ändrar värdet på bollenshastighet - Behöver lägga in siffror till rutorna 
- * implementera så att bollen läser av musens position och flyger mot musen
- * implementera att bollen försvinner när den är utanför skärmen och att en ny boll skapas
- * implementera en kraft som ändrar bollens riktning?
+ * implementera så att bollen läser av musens position och flyger mot musen - Fixa så att v0.Y får in värdet från musen
+ * implementera att bollen försvinner när den är utanför skärmen och att en ny boll skapas - Done
+ * implementera en kraft som ändrar bollens riktning? - Har gravitation men inte luftmotstånd
  * 
- * GLÖM INTE ATT ANVÄNDA SI-ENHETERNA
+ * GLÖM INTE ATT ANVÄNDA SI-ENHETERNA och att använda gameTime för att inte räkna tiden på pixlar
+ * 
+ * Verkar som om att man ska få in ett windows Form but why??
  */
