@@ -7,6 +7,7 @@ namespace FysikLabb0 {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D spriteSheet;
         int screenWidth, screenHeight, startX, startY;
         Rectangle ballRect, testRect;
         List<Ball> ballList;
@@ -15,36 +16,35 @@ namespace FysikLabb0 {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            screenWidth = 1650;
-            screenHeight = 900;
-            startX = 200;
-            startY = 750;
+            screenWidth = 1900;
+            screenHeight = 1080;
+            IsMouseVisible = true;
+            startX = 100;
+            startY = 900;
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
             ballRect = new Rectangle(startX, startY, 50, 50);
             ballList = new List<Ball>();
         }
 
-        protected override void Initialize() {
-            graphics.PreferredBackBufferWidth = screenWidth;
-            graphics.PreferredBackBufferHeight = screenHeight;
-            base.Initialize();
-        }
-
         protected override void LoadContent() { //Införa mitt spritSheet
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            spriteSheet = Content.Load<Texture2D>("spriteSheet");
         }
 
         protected override void Update(GameTime gameTime) {
             if(ballList.Count == 0) {
                 CreateBall();
             }
-            ball.Update();
+            foreach (Ball ball in ballList) {
+                ball.Update();
+            }
+            
             base.Update(gameTime);
         }
 
         public void CreateBall() {
-            ball = new Ball(ballRect);
+            ball = new Ball(spriteSheet, ballRect);
             ballList.Add(ball);
         }
 
@@ -61,9 +61,11 @@ namespace FysikLabb0 {
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.White);
+            spriteBatch.Begin();
             foreach(Ball ball in ballList) {
                 ball.Draw(spriteBatch);
             }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
@@ -76,9 +78,9 @@ namespace FysikLabb0 {
  * ibörjan bestäms av där man har musen och högerklickar, hastighetsvärdet bestäms av rutor man klickar på och riktningen bestäms av musens position, för att sedan skjuta bollen trycker man med vänster musknapp
  * 
  * To Do:
- * Skapa bollenklassen
- * implementera bollen i skärmen med startvärden och att dessa värden kan ändras med höger musknapp
- * implementera huden med klickbara rutor som ändrar värdet på bollenshastighet
+ * Skapa bollenklassen - Done
+ * implementera bollen i skärmen med startvärden och att dessa värden kan ändras med höger musknapp - Done
+ * implementera huden med klickbara rutor som ändrar värdet på bollenshastighet - Behöver lägga in siffror till rutorna 
  * implementera så att bollen läser av musens position och flyger mot musen
  * implementera att bollen försvinner när den är utanför skärmen och att en ny boll skapas
  * implementera en kraft som ändrar bollens riktning?
