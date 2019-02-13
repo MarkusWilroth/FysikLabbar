@@ -15,23 +15,25 @@ namespace FysikLabb0 {
         MouseState mouseState, oldMouseState;
         KeyboardState keyState, oldKeyState;
         Rectangle[] boxPos, numberPos;
-        float ballSpeed, t;
+        float ballSpeed, t, pixelToMeter;
         bool isFlying;
-        Vector2 s0, s, v0, v, a;
+        Vector2 s0, s, v0, v, a, convertedS;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
             this.spriteSheet = spriteSheet;
-            this.ballRect = ballRect;
             this.game = game;
 
+            this.ballRect = new Rectangle((int)convertedS.X - ballRect.Width / 2, (int)convertedS.Y - ballRect.Height / 2, ballRect.Width, ballRect.Height);
+            pixelToMeter = 3779.527559051f;
             ballSource = new Rectangle(0, 0, 100, 100);
             boxSource = new Rectangle(310, 0, 200, 100);
             boxPos = new Rectangle[6];
             numberPos = new Rectangle[6];
-            v0 = new Vector2(5, 0); // 5 m/s i X riktning
+            v0 = new Vector2(30, 35); // 5 m/s i X riktning
             v = v0;
-            a = new Vector2(0, 9.82f);
-            s0 = new Vector2(ballRect.X, ballRect.Y);
+            a = new Vector2(0, -9.82f);
+            s0 = new Vector2(0, 0);
+            convertedS = new Vector2(0, 0);
             s = s0;
             t = 0;
             isFlying = false;
@@ -52,7 +54,7 @@ namespace FysikLabb0 {
             s.X = s0.X + (((v0.X + v.X) / 2) * t);
             s.Y = s0.Y + (((v0.Y + v.Y) / 2) * t);
 
-            v.X -= 0.01f; //Luftmotstånd behöver ha exakta siffror
+            //v.X -= 0.01f; //Luftmotstånd behöver ha exakta siffror
             v.Y = v0.Y + (a.Y * t);
             if (s.X >= 1900 || s.Y >= 1000) {
                 isFlying = false;
@@ -75,7 +77,6 @@ namespace FysikLabb0 {
         public void MoveBall () {
             s0.X = mouseState.X;
             s0.Y = mouseState.Y;
-
         }
 
         public void Update(GameTime gameTime) {
@@ -85,11 +86,12 @@ namespace FysikLabb0 {
             if (!isFlying) {
                 if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released) {
                     MoveBall();
-
                 }
+
                 if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released) {
                     ChangeSpeed();
                 }
+
                 if (keyState.IsKeyDown(Keys.Enter) && oldKeyState.IsKeyUp(Keys.Enter)) {
                     isFlying = true;
                 }
@@ -97,14 +99,16 @@ namespace FysikLabb0 {
             else {
                 ShootBall(gameTime);
             }
-
+            convertedS = Conversions.PosToPixel(s);
+            ballRect.X = (int)convertedS.X - ballRect.Width / 2;
+            ballRect.Y = (int)convertedS.Y - ballRect.Height / 2;
             oldMouseState = mouseState;
             oldKeyState = keyState;
 
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(spriteSheet, s, ballSource, Color.White);
+            spriteBatch.Draw(spriteSheet, ballRect, ballSource, Color.White);
             for (int i = 0; i < boxPos.Length; i++) {
                 spriteBatch.Draw(spriteSheet, boxPos[i], boxSource, Color.White);
             }
