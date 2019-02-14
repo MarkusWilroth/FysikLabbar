@@ -21,8 +21,8 @@ namespace FysikLabb0 {
             screenWidth = 1900;
             screenHeight = 1000;
             IsMouseVisible = true;
-            startX = 100;
-            startY = 900;
+            startX = 5;
+            startY = 5;
             graphics.PreferredBackBufferWidth = screenWidth;
             graphics.PreferredBackBufferHeight = screenHeight;
             ballRect = new Rectangle(startX, startY, 50, 50);
@@ -50,13 +50,6 @@ namespace FysikLabb0 {
 
         public void DestroyBall(Vector2 posRect) {
             ballList.Clear();
-            //foreach (Ball ball in ballList) {
-            //    testPos = ball.GetPos();
-            //    if(testPos.X == posRect.X && testPos.Y == posRect.Y) {
-            //        ballList.Remove(ball);
-            //        break;
-            //    }
-            //}
 
         }
 

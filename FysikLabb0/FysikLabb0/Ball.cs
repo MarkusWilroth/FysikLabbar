@@ -22,7 +22,7 @@ namespace FysikLabb0 { //Saker behöver snyggas upp inför redovisningen, finns 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
             this.spriteSheet = spriteSheet;
             this.game = game;
-            this.ballRect = new Rectangle((int)(convertedS.X - offSet), (int)(convertedS.Y - offSet), ballRect.Width, ballRect.Height); //tror detta borde fixas i Game1 eller tas bort från Game1
+            this.ballRect = ballRect; //tror detta borde fixas i Game1 eller tas bort från Game1
 
             offSet = ballRect.Width / 2;
             
@@ -34,7 +34,7 @@ namespace FysikLabb0 { //Saker behöver snyggas upp inför redovisningen, finns 
             v0 = new Vector2(30, 35);
             v = v0;
             gravitation = -9.82f;
-            s0 = new Vector2(5, 5);
+            s0 = new Vector2(ballRect.X, ballRect.Y);
             convertedS = new Vector2(0, 0);
             s = s0;
             time = 0;
@@ -62,8 +62,11 @@ namespace FysikLabb0 { //Saker behöver snyggas upp inför redovisningen, finns 
                 game.DestroyBall(s);
             }
         }
+        public void ChangeDirect() {
 
-        public void ChangeSpeed() {
+        }
+
+        public void ChangeValues() {
             mouseRect.X = mouseState.X;
             mouseRect.Y = mouseState.Y;
 
@@ -96,7 +99,7 @@ namespace FysikLabb0 { //Saker behöver snyggas upp inför redovisningen, finns 
 
             if (!isFlying) {
                 if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released) {
-                    ChangeSpeed();
+                    ChangeValues();
                 }
 
                 if (keyState.IsKeyDown(Keys.Enter) && oldKeyState.IsKeyUp(Keys.Enter)) {
