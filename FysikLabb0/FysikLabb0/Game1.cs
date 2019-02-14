@@ -79,14 +79,10 @@ namespace FysikLabb0 {
  * ibörjan bestäms av där man har musen och högerklickar, hastighetsvärdet bestäms av rutor man klickar på och riktningen bestäms av musens position, för att sedan skjuta bollen trycker man med vänster musknapp
  * 
  * To Do:
- * Skapa bollenklassen - Done
- * implementera bollen i skärmen med startvärden och att dessa värden kan ändras med höger musknapp - Done
- * implementera huden med klickbara rutor som ändrar värdet på bollenshastighet - Behöver lägga in siffror till rutorna 
- * implementera så att bollen läser av musens position och flyger mot musen - Fixa så att v0.Y får in värdet från musen
- * implementera att bollen försvinner när den är utanför skärmen och att en ny boll skapas - Done
- * implementera en kraft som ändrar bollens riktning? - Har gravitation men inte luftmotstånd
+ * implementera HUD:en med klickbara rutor som ändrar värdet på bollenshastighet - Behöver lägga in siffror till rutorna eller göra som fabian ville göra
+ * implementera så att bollen läser av musens position och flyger mot musen - Fixa så att v0.Y får in värdet från musen så att men hjälp av en ekvation räkna ut vad v0.Y ska vara för att bollen ska träffa musens position
  * 
  * GLÖM INTE ATT ANVÄNDA SI-ENHETERNA och att använda gameTime för att inte räkna tiden på pixlar
  * 
- * Verkar som om att man ska få in ett windows Form but why??
+ * Axel alla värden i ekvationen är i meter det enda som är i pixlar är convertedS (conversationS) som används för att rita ut bollen på skärmen. 
  */

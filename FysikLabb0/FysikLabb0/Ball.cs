@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FysikLabb0 {
+namespace FysikLabb0 { //Saker behöver snyggas upp inför redovisningen, finns lite onödiga saker här som vi borde sätta oss i discord och ta bort
     class Ball {
         Game1 game;
         Rectangle ballRect, mouseRect, ballSource, boxSource;
@@ -15,33 +15,35 @@ namespace FysikLabb0 {
         MouseState mouseState, oldMouseState;
         KeyboardState keyState, oldKeyState;
         Rectangle[] boxPos, numberPos;
-        float ballSpeed, t, pixelToMeter;
+        float time, offSet, gravitation;
         bool isFlying;
-        Vector2 s0, s, v0, v, a, convertedS;
+        Vector2 s0, s, v0, v, convertedS;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
             this.spriteSheet = spriteSheet;
             this.game = game;
+            this.ballRect = new Rectangle((int)(convertedS.X - offSet), (int)(convertedS.Y - offSet), ballRect.Width, ballRect.Height); //tror detta borde fixas i Game1 eller tas bort från Game1
 
-            this.ballRect = new Rectangle((int)convertedS.X - ballRect.Width / 2, (int)convertedS.Y - ballRect.Height / 2, ballRect.Width, ballRect.Height);
-            pixelToMeter = 3779.527559051f;
+            offSet = ballRect.Width / 2;
+            
             ballSource = new Rectangle(0, 0, 100, 100);
             boxSource = new Rectangle(310, 0, 200, 100);
             boxPos = new Rectangle[6];
             numberPos = new Rectangle[6];
-            v0 = new Vector2(30, 35); // 5 m/s i X riktning
+
+            v0 = new Vector2(30, 35);
             v = v0;
-            a = new Vector2(0, -9.82f);
-            s0 = new Vector2(0, 0);
+            gravitation = -9.82f;
+            s0 = new Vector2(5, 5);
             convertedS = new Vector2(0, 0);
             s = s0;
-            t = 0;
+            time = 0;
             isFlying = false;
 
             mouseRect = new Rectangle(0, 0, 5, 5);
 
             for (int i = 0; i < boxPos.Length; i++) {
-                boxPos[i] = new Rectangle(1700, 400 + (100 * i), 200, 100); //Detta är i pixlar detta behöver ändras till meter
+                boxPos[i] = new Rectangle(1700, 400 + (100 * i), 200, 100); //behövs detta ändras till meter??? tillhör inte ekvationen...
             }
         }
 
@@ -50,13 +52,12 @@ namespace FysikLabb0 {
         }
 
         public void ShootBall(GameTime gameTime) {
-            t += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            s.X = s0.X + (((v0.X + v.X) / 2) * t);
-            s.Y = s0.Y + (((v0.Y + v.Y) / 2) * t);
-
-            //v.X -= 0.01f; //Luftmotstånd behöver ha exakta siffror
-            v.Y = v0.Y + (a.Y * t);
-            if (s.X >= 1900 || s.Y >= 1000) {
+            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
+            s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
+            
+            v.Y = v0.Y + (gravitation * time);
+            if (convertedS.X >= 1900 || convertedS.Y >= 1000) { //Kollar om bollen är utanför så att den försvinner... använder inte meter här men borde inte vara några problem
                 isFlying = false;
                 game.DestroyBall(s);
             }
@@ -74,9 +75,19 @@ namespace FysikLabb0 {
             }
         }
 
-        public void MoveBall () {
-            s0.X = mouseState.X;
-            s0.Y = mouseState.Y;
+        public void MoveBall () { //Fixa så att man inte kan styra bollen utanför skärmen eller inte?
+            if (keyState.IsKeyDown(Keys.Up)) {
+                s0.Y += 1;
+            }
+            else if (keyState.IsKeyDown(Keys.Down)) {
+                s0.Y -= 1;
+            }
+            if (keyState.IsKeyDown(Keys.Right)) {
+                s0.X += 1;
+            }
+            else if (keyState.IsKeyDown(Keys.Left)) {
+                s0.X -= 1;
+            }
         }
 
         public void Update(GameTime gameTime) {
@@ -84,10 +95,6 @@ namespace FysikLabb0 {
             keyState = Keyboard.GetState();
 
             if (!isFlying) {
-                if (mouseState.RightButton == ButtonState.Pressed && oldMouseState.RightButton == ButtonState.Released) {
-                    MoveBall();
-                }
-
                 if (mouseState.LeftButton == ButtonState.Pressed && oldMouseState.LeftButton == ButtonState.Released) {
                     ChangeSpeed();
                 }
@@ -95,13 +102,16 @@ namespace FysikLabb0 {
                 if (keyState.IsKeyDown(Keys.Enter) && oldKeyState.IsKeyUp(Keys.Enter)) {
                     isFlying = true;
                 }
+                convertedS = Conversions.PosToPixel(s0);
+                MoveBall(); //använd biltangenterna för att flytta den
             }
             else {
                 ShootBall(gameTime);
+                convertedS = Conversions.PosToPixel(s);
             }
-            convertedS = Conversions.PosToPixel(s);
-            ballRect.X = (int)convertedS.X - ballRect.Width / 2;
-            ballRect.Y = (int)convertedS.Y - ballRect.Height / 2;
+            
+            ballRect.X = (int)(convertedS.X - offSet);
+            ballRect.Y = (int)(convertedS.Y - offSet);
             oldMouseState = mouseState;
             oldKeyState = keyState;
 
