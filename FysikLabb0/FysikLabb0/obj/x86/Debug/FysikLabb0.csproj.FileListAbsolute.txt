@@ -71,3 +71,4 @@ C:\Users\User\FysikLabbar\FysikLabb0\FysikLabb0\obj\x86\Debug\FysikLabb0.csproj.
 C:\Users\User\FysikLabbar\FysikLabb0\FysikLabb0\obj\x86\Debug\FysikLabb0.csproj.CopyComplete
 C:\Users\User\FysikLabbar\FysikLabb0\FysikLabb0\obj\x86\Debug\FysikLabb0.exe
 C:\Users\User\FysikLabbar\FysikLabb0\FysikLabb0\obj\x86\Debug\FysikLabb0.pdb
+C:\Users\Flugan\FysikLabbar\FysikLabb0\FysikLabb0\bin\Windows\x86\Debug\Content\spriteFont.xnb

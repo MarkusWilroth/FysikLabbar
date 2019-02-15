@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FysikLabb0 {
     class Conversions {
@@ -16,9 +11,5 @@ namespace FysikLabb0 {
             Vector2 temp = new Vector2(posInMeter.X * scale.X, posInMeter.Y * scale.Y + screenSize.Y);
             return temp;
         }
-        //static public Vector2 PosToMeter (Vector2 posInPixel) {
-        //    Vector2 temp2 = new Vector2(posInPixel.X / scale.X, posInPixel.Y / scale.Y + screenSize.Y);
-        //    return temp2; 
-        //}
     }
 }
