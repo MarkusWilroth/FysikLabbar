@@ -10,14 +10,14 @@ namespace Redovisning1 {
     class BoxObject {
         Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
-        Vector2 pos, startPos, pixelPos, friktion, direction, speed;
+        Vector2 pos, startPos, pixelPos, friction, direction, speed;
         float rotation, time, direction2, startSpeed;
         bool isRunning;
 
         public BoxObject(Texture2D spriteSheet, float rotation) {
             this.spriteSheet = spriteSheet;
             this.rotation = rotation;
-            isRunning = true;
+            isRunning = false;
             pos = new Vector2(5, 95);
             startPos = pos;
             startSpeed = 1;

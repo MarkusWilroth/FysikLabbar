@@ -42,8 +42,8 @@ namespace Redovisning1 {
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
-            if(numericUpDown1.Value >= 100) {
-                numericUpDown1.Value = 100;
+            if(numericUpDown1.Value >= 1) {
+                numericUpDown1.Value = 1;
             }
             if(numericUpDown1.Value <= 0) {
                 numericUpDown1.Value = 0;
