@@ -18,12 +18,14 @@ namespace Redovisning1 {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             boxList = new List<BoxObject>();
+            form = new Redovisning1.Form1();
         }
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             IsMouseVisible = true;
             spriteSheet = Content.Load<Texture2D>("spriteSheet");
+            form.Activate();
            
         }
 
@@ -31,6 +33,7 @@ namespace Redovisning1 {
             if(boxList.Count <= 0) {
                 CreateBox();
             }
+            boxO.Update(gameTime);
             base.Update(gameTime);
         }
         public void CreateBox() {
@@ -50,6 +53,7 @@ namespace Redovisning1 {
             foreach (BoxObject boxO in boxList) {
                 boxO.Draw(spriteBatch);
             }
+            form.Show();
             spriteBatch.End();
             base.Draw(gameTime);
         }

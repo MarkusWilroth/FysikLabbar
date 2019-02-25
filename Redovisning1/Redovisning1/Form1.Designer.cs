@@ -96,6 +96,7 @@
             // 
             this.txb_Message.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txb_Message.Location = new System.Drawing.Point(27, 70);
+            this.txb_Message.MaxLength = 100;
             this.txb_Message.Name = "txb_Message";
             this.txb_Message.Size = new System.Drawing.Size(233, 20);
             this.txb_Message.TabIndex = 6;

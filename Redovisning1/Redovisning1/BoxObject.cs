@@ -10,14 +10,14 @@ namespace Redovisning1 {
     class BoxObject {
         Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
-        Vector2 pos;
+        Vector2 pos, pixelPos;
         float rotation;
         bool isRunning;
 
         public BoxObject(Texture2D spriteSheet) {
             this.spriteSheet = spriteSheet;
             isRunning = false;
-            pos = new Vector2(50, 50);
+            pos = new Vector2(5, 90);
             boxRect = new Rectangle((int)pos.X, (int)pos.Y, 25, 25);
             boxSource = new Rectangle(0, 1, 25, 25);
         }
@@ -31,6 +31,9 @@ namespace Redovisning1 {
             }
             else {
             }
+            pixelPos = Conversion.PosToPixel(pos);
+            boxRect.X = (int)pixelPos.X;
+            boxRect.Y = (int)pixelPos.Y;
         }
 
         public void Kill() {
