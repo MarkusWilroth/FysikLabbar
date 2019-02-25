@@ -17,9 +17,10 @@ namespace Redovisning1 {
         public BoxObject(Texture2D spriteSheet) {
             this.spriteSheet = spriteSheet;
             isRunning = false;
-            pos = new Vector2(5, 90);
+            pos = new Vector2(5, 95);
             boxRect = new Rectangle((int)pos.X, (int)pos.Y, 25, 25);
             boxSource = new Rectangle(0, 1, 25, 25);
+            rotation = 0.5f;
         }
 
         public void Update(GameTime gameTime) {
@@ -45,7 +46,7 @@ namespace Redovisning1 {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(spriteSheet, boxRect, boxSource, Color.White);
+            sb.Draw(spriteSheet, boxRect, boxSource, Color.White, rotation, new Vector2(boxRect.Width / 2, boxRect.Height / 2), SpriteEffects.None, 1);
         }
     }
 }

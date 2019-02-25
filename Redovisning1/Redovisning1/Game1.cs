@@ -11,7 +11,9 @@ namespace Redovisning1 {
         BoxObject boxO;
         List<BoxObject> boxList;
         Texture2D spriteSheet;
+        Rectangle groundRect, groundSourceRect;
         Form1 form;
+        float rotation;
 
 
         public Game1() {
@@ -19,6 +21,9 @@ namespace Redovisning1 {
             Content.RootDirectory = "Content";
             boxList = new List<BoxObject>();
             form = new Redovisning1.Form1();
+            groundSourceRect = new Rectangle(0, 48, 1900, 25);
+            groundRect = new Rectangle(0, 50, 1900, 25);
+            rotation = 0.5f;
         }
 
         protected override void LoadContent() {
@@ -53,6 +58,7 @@ namespace Redovisning1 {
             foreach (BoxObject boxO in boxList) {
                 boxO.Draw(spriteBatch);
             }
+            spriteBatch.Draw(spriteSheet, groundRect, groundSourceRect, Color.White, rotation, new Vector2(groundRect.Width / 2, groundRect.Height / 2), SpriteEffects.None, 1);
             form.Show();
             spriteBatch.End();
             base.Draw(gameTime);

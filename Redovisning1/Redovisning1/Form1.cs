@@ -31,7 +31,8 @@ namespace Redovisning1 {
 
         private void btn_Restart_Click(object sender, EventArgs e) {
             //boxO.Kill(); //Kommer inte åt boxO klassen
-            numericUpDown1.ResetText();
+            
+            numericUpDown1.Value = 0;
             //Ändrar värdet som står i textrutan till 0, raderar alla boxar i boxList så att en ny skapas
             //Detta ska även hända om bollen åker utanför... ska vi ha så att man bara kan starta om genom att klicka på denna knapp tror det blir lättast så
         }
