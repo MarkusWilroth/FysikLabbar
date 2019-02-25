@@ -23,6 +23,7 @@ namespace Redovisning1 {
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             IsMouseVisible = true;
+            spriteSheet = Content.Load<Texture2D>("spriteSheet");
            
         }
 
@@ -46,9 +47,9 @@ namespace Redovisning1 {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
-            //foreach (BoxObject boxO in boxList) {
-            //    boxO.Draw(spriteBatch);
-            //}
+            foreach (BoxObject boxO in boxList) {
+                boxO.Draw(spriteBatch);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -58,7 +59,8 @@ namespace Redovisning1 {
  * En låda glider utför en backe. Backen kan lämpligen vara en rektangel (lång men låg) som lutas en fix vinkel θ = 30◦. Man ska under körning (för varje ny låda) kunna mata in ett värde på kinetiska friktionskoefficienten (µk) tills  * värdet är så stort att lådan slutar glida.
  * 
  * Tolkning
- * En rektangel ska luta 30◦ där en annan rektagel ska glida på tills friktionens värde blir större än lådans kraft. friktionen ska kunnas ändras och programmet ska kunna köras utan omstart!
+ * En rektangel ska luta 30◦ där en annan rektagel ska glida på tills friktionens värde blir större än lådans kraft. friktionen ska kunnas ändras och programmet ska kunna köras utan omstart! Lådan behöver inte intergera med marken
+ * ska bara se ut som om att den åker på den.
  * 
  * To Do List:
  * Fixa forms så att alla knappar och info visas

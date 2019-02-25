@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace Redovisning1 {
     class BoxObject {
-        Rectangle groundRect, boxRect, groundSource, boxSource;
+        Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
+        Vector2 pos;
+        float rotation;
         bool isRunning;
 
         public BoxObject(Texture2D spriteSheet) {
             this.spriteSheet = spriteSheet;
             isRunning = false;
-            boxRect = new Rectangle(0, 0, 25, 25);
-            groundRect = new Rectangle(0, 0, 1000, 25);
+            pos = new Vector2(50, 50);
+            boxRect = new Rectangle((int)pos.X, (int)pos.Y, 25, 25);
+            boxSource = new Rectangle(0, 1, 25, 25);
         }
 
         public void Update(GameTime gameTime) {
@@ -39,7 +42,7 @@ namespace Redovisning1 {
         }
 
         public void Draw(SpriteBatch sb) {
-            //sb.Draw(spriteSheet, boxRect, Color.White);
+            sb.Draw(spriteSheet, boxRect, boxSource, Color.White);
         }
     }
 }
