@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -23,7 +24,7 @@ namespace Redovisning1 {
             form = new Redovisning1.Form1();
             groundSourceRect = new Rectangle(0, 48, 1900, 25);
             groundRect = new Rectangle(0, 50, 1900, 25);
-            rotation = 0.5f;
+            rotation = (float)((Math.PI / 180) * 30);
         }
 
         protected override void LoadContent() {
@@ -43,7 +44,7 @@ namespace Redovisning1 {
         }
         public void CreateBox() {
             //skapar lådjäveln
-            boxO = new BoxObject(spriteSheet);
+            boxO = new BoxObject(spriteSheet, rotation);
             boxList.Add(boxO);
         }
 

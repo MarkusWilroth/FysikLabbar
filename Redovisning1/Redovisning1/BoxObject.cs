@@ -10,17 +10,22 @@ namespace Redovisning1 {
     class BoxObject {
         Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
-        Vector2 pos, pixelPos;
-        float rotation;
+        Vector2 pos, startPos, pixelPos, friktion, direction, speed;
+        float rotation, time, direction2, startSpeed;
         bool isRunning;
 
-        public BoxObject(Texture2D spriteSheet) {
+        public BoxObject(Texture2D spriteSheet, float rotation) {
             this.spriteSheet = spriteSheet;
-            isRunning = false;
+            this.rotation = rotation;
+            isRunning = true;
             pos = new Vector2(5, 95);
+            startPos = pos;
+            startSpeed = 1;
+            time = 0;
+            speed = new Vector2(1,-1);
             boxRect = new Rectangle((int)pos.X, (int)pos.Y, 25, 25);
             boxSource = new Rectangle(0, 1, 25, 25);
-            rotation = 0.5f;
+            direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
         }
 
         public void Update(GameTime gameTime) {
@@ -42,7 +47,12 @@ namespace Redovisning1 {
         }
 
         public void Fall(GameTime gameTime) {
+            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            pos.X += speed.X * direction.X;
+            pos.Y += speed.Y * direction.Y;
 
+            //pos.X = startPos.X + (((startSpeed + speed) / 2) * time);
+            //pos.Y = startPos.Y + (((startSpeed + speed) / 2) * time);
         }
 
         public void Draw(SpriteBatch sb) {
