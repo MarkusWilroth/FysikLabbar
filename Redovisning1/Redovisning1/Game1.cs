@@ -14,6 +14,7 @@ namespace Redovisning1 {
         Texture2D spriteSheet;
         Rectangle groundRect, groundSourceRect;
         Form1 form;
+        int screenWidth, screenHeight;
         float rotation;
 
 
@@ -25,6 +26,10 @@ namespace Redovisning1 {
             groundSourceRect = new Rectangle(0, 48, 1900, 25);
             groundRect = new Rectangle(0, 50, 1900, 25);
             rotation = (float)((Math.PI / 180) * 30);
+            screenWidth = 1900;
+            screenHeight = 1000;
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
         }
 
         protected override void LoadContent() {
