@@ -1,61 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Redovisning1 {
     public partial class Form1 : Form {
         BoxObject boxO;
-        float friktion;
-        bool isPlaying, isAlive;
+        private float friction;
+        private bool isPlaying, isAlive, quit;
 
         public Form1() {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void Form1_Load(object sender, EventArgs e) {
             isPlaying = false;
             isAlive = true;
-        }
-        //static public float Fri() {
-        //    float friktion = (float)NumericUpDown1.Value;
-        //    return friktion;
-        //}
-
-        public float GetFri {
-            get { return friktion; }
+            quit = false;
         }
 
-        public bool State {
-            get { return isPlaying; }
+        #region Values
+        public float ReturnFriction() {
+            return friction;
         }
 
-        public bool AliveState {
-            get { return isAlive; }
+        public bool RunningState() {
+            return isPlaying;
         }
+
+        public bool AliveState() {
+            return isAlive;
+        }
+
+        public bool Quit() {
+            return quit;
+        }
+        #endregion
 
         private void btn_Start_Click(object sender, EventArgs e) {
-            friktion = (float)numericUpDown1.Value;
+            friction = (float)numericUpDown1.Value;
             isPlaying = true;
-            //numericUpDown1.Visible = false; //Ska ändras så att rutan blir grå tills bollen dör
-            //Skickar värdet från textrutan till BoxObject, och ändrar isRunning till true
+            isAlive = true;
         }
 
         private void btn_Restart_Click(object sender, EventArgs e) {
             numericUpDown1.Value = 0;
             isAlive = false;
             isPlaying = false;
-            //Ändrar värdet som står i textrutan till 0, raderar alla boxar i boxList så att en ny skapas
-            //Detta ska även hända om bollen åker utanför... ska vi ha så att man bara kan starta om genom att klicka på denna knapp tror det blir lättast så
         }
 
         private void btn_Quit_Click(object sender, EventArgs e) {
-            //Stänger av programmet
+            quit = true;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {

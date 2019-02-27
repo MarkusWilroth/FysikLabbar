@@ -75,13 +75,13 @@
             // btn_Restart
             // 
             this.btn_Restart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btn_Restart.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Restart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Restart.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btn_Restart.Location = new System.Drawing.Point(149, 149);
             this.btn_Restart.Name = "btn_Restart";
             this.btn_Restart.Size = new System.Drawing.Size(111, 55);
             this.btn_Restart.TabIndex = 4;
-            this.btn_Restart.Text = "Restart";
+            this.btn_Restart.Text = "Dö Lådjävel";
             this.btn_Restart.UseVisualStyleBackColor = false;
             this.btn_Restart.Click += new System.EventHandler(this.btn_Restart_Click);
             // 

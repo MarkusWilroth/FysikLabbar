@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Redovisning1 {
     public class Game1 : Game {
@@ -13,16 +11,16 @@ namespace Redovisning1 {
         List<BoxObject> boxList;
         Texture2D spriteSheet;
         Rectangle groundRect, groundSourceRect;
-        Form1 form;
+        Form1 form1;
         int screenWidth, screenHeight;
         float rotation;
-
+        bool isAlive, isRunning, quit;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             boxList = new List<BoxObject>();
-            form = new Redovisning1.Form1();
+            form1 = new Redovisning1.Form1();
             groundSourceRect = new Rectangle(0, 48, 1900, 25);
             groundRect = new Rectangle(0, 50, 1900, 25);
             rotation = (float)((Math.PI / 180) * 30);
@@ -36,20 +34,32 @@ namespace Redovisning1 {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             IsMouseVisible = true;
             spriteSheet = Content.Load<Texture2D>("spriteSheet");
-            form.Activate();
+            form1.Activate();
            
         }
 
         protected override void Update(GameTime gameTime) {
-            if(boxList.Count <= 0) {
-                CreateBox();
+            isAlive = form1.AliveState();
+            isRunning = form1.RunningState();
+            quit = form1.Quit();
+            if (!isAlive) {
+                KillBox();
             }
-            boxO.Update(gameTime);
+            if(isRunning) {
+                if (boxList.Count <= 0) {
+                    CreateBox();
+                }
+                boxO.Update(gameTime);
+            }
+            if(quit) {
+                Exit();
+            }
+            
             base.Update(gameTime);
         }
         public void CreateBox() {
             //skapar lådjäveln
-            boxO = new BoxObject(spriteSheet, rotation);
+            boxO = new BoxObject(spriteSheet, rotation, form1);
             boxList.Add(boxO);
         }
 
@@ -65,7 +75,7 @@ namespace Redovisning1 {
                 boxO.Draw(spriteBatch);
             }
             spriteBatch.Draw(spriteSheet, groundRect, groundSourceRect, Color.White, rotation, new Vector2(groundRect.Width / 2, groundRect.Height / 2), SpriteEffects.None, 1);
-            form.Show();
+            form1.Show();
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -79,12 +89,6 @@ namespace Redovisning1 {
  * ska bara se ut som om att den åker på den.
  * 
  * To Do List:
- * Fixa forms så att alla knappar och info visas
- * Implementera en Object-klass
- * Implementera en box-klass som har en rektangel med startvärden och en kraft
- * Implementera en väg-klass som har en rektangel med starvärde och ska kunna läsa av friktionen från textrutan, samt ha ett startväde så att den lutar 30◦ (Tänkte att det ska vara här ekvationen händer)
- * Implementera att programmet ska kunna startas om.
- * Ekvationen som ska användas är (velocity += acceleration - friction*velocity
  * 
  * C1:
  * En bil k¨or genom en kurva (del av en cirkel) med viss radie och viss statisk friktionskoefficient mellan d¨ack och v¨agbana. Man ska under körning (för varje ny bil) kunna ¨oka farten tills bilen inte l¨angre klarar kurvan. D˚a skrivs en text
