@@ -8,7 +8,7 @@ namespace Redovisning1 {
         Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
         Vector2 pos, startPos, pixelPos, direction, speed, a, friction;
-        float rotation, time, startSpeed, u, g;
+        float rotation, time, startSpeed, u, g, fa;
 
         public BoxObject(Texture2D spriteSheet, float rotation, Form1 form1) {
             this.form1 = form1;
@@ -38,11 +38,12 @@ namespace Redovisning1 {
 
         public void Fall(GameTime gameTime) {
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            friction.X = (float) (-g * Math.Cos((Math.PI / 180) * 30) * u); 
-            friction.Y = (float)(g * Math.Sin((Math.PI / 180) * 30) * u);
+            fa = (float)(g * (Math.Sin(rotation) - (Math.Cos(rotation) * u)));
+            friction.X = (float)(-fa * Math.Cos(rotation)); 
+            friction.Y = (float)(fa * Math.Sin(rotation));
 
-            pos.X = (float)(startPos.X + (((a.X) * Math.Pow(time, 2)) / 2) - (((friction.X) * Math.Pow(time, 2)) / 2));
-            pos.Y = (float)(startPos.Y + (((a.Y) * Math.Pow(time, 2)) / 2) - (((friction.Y) * Math.Pow(time, 2)) / 2));
+            pos.X = (float)(startPos.X + (((friction.X) * Math.Pow(time, 2)) / 2));
+            pos.Y = (float)(startPos.Y + (((friction.Y) * Math.Pow(time, 2)) / 2));
         }
 
         public void Draw(SpriteBatch sb) {
