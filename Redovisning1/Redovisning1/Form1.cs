@@ -57,11 +57,7 @@ namespace Redovisning1 {
             }
             if(numericUpDown1.Value <= 0) {
                 numericUpDown1.Value = 0;
-            }
-            //Funderar på om denna går att använda eller inte... Friktionskoefficienten ska vara en double/float vet inte om denna bara ändra heltal
-            //Annars ska det gå att ändra värdet här som senare läses in när man startar programmet
-            
-
+            }  
         }
     }
 }

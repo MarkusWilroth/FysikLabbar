@@ -28,7 +28,6 @@
             this.btn_Start = new System.Windows.Forms.Button();
             this.btn_Restart = new System.Windows.Forms.Button();
             this.btn_Quit = new System.Windows.Forms.Button();
-            this.txb_Message = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,7 +37,7 @@
             this.label1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(22, 9);
+            this.label1.Location = new System.Drawing.Point(22, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(238, 25);
             this.label1.TabIndex = 0;
@@ -53,7 +52,7 @@
             0,
             0,
             131072});
-            this.numericUpDown1.Location = new System.Drawing.Point(27, 37);
+            this.numericUpDown1.Location = new System.Drawing.Point(27, 68);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(233, 26);
             this.numericUpDown1.TabIndex = 2;
@@ -98,22 +97,11 @@
             this.btn_Quit.UseVisualStyleBackColor = false;
             this.btn_Quit.Click += new System.EventHandler(this.btn_Quit_Click);
             // 
-            // txb_Message
-            // 
-            this.txb_Message.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txb_Message.Location = new System.Drawing.Point(27, 70);
-            this.txb_Message.MaxLength = 100;
-            this.txb_Message.Name = "txb_Message";
-            this.txb_Message.Size = new System.Drawing.Size(233, 20);
-            this.txb_Message.TabIndex = 6;
-            this.txb_Message.Text = "Hello, plz help me pass i need tha points <3 <3";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.txb_Message);
             this.Controls.Add(this.btn_Quit);
             this.Controls.Add(this.btn_Restart);
             this.Controls.Add(this.btn_Start);
@@ -135,6 +123,5 @@
         private System.Windows.Forms.Button btn_Start;
         private System.Windows.Forms.Button btn_Restart;
         private System.Windows.Forms.Button btn_Quit;
-        private System.Windows.Forms.TextBox txb_Message;
     }
 }

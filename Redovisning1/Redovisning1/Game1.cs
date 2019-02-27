@@ -20,7 +20,7 @@ namespace Redovisning1 {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             boxList = new List<BoxObject>();
-            form1 = new Redovisning1.Form1();
+            form1 = new Form1();
             groundSourceRect = new Rectangle(0, 48, 1900, 25);
             groundRect = new Rectangle(0, 50, 1900, 25);
             rotation = (float)((Math.PI / 180) * 30);
@@ -35,7 +35,6 @@ namespace Redovisning1 {
             IsMouseVisible = true;
             spriteSheet = Content.Load<Texture2D>("spriteSheet");
             form1.Activate();
-           
         }
 
         protected override void Update(GameTime gameTime) {
@@ -58,13 +57,11 @@ namespace Redovisning1 {
             base.Update(gameTime);
         }
         public void CreateBox() {
-            //skapar lådjäveln
             boxO = new BoxObject(spriteSheet, rotation, form1);
             boxList.Add(boxO);
         }
 
         public void KillBox() {
-            //Dödar lådjäveln
             boxList.Clear();
         }
 
@@ -81,21 +78,3 @@ namespace Redovisning1 {
         }
     }
 }
-/* B1:
- * En låda glider utför en backe. Backen kan lämpligen vara en rektangel (lång men låg) som lutas en fix vinkel θ = 30◦. Man ska under körning (för varje ny låda) kunna mata in ett värde på kinetiska friktionskoefficienten (µk) tills  * värdet är så stort att lådan slutar glida.
- * 
- * Tolkning
- * En rektangel ska luta 30◦ där en annan rektagel ska glida på tills friktionens värde blir större än lådans kraft. friktionen ska kunnas ändras och programmet ska kunna köras utan omstart! Lådan behöver inte intergera med marken
- * ska bara se ut som om att den åker på den.
- * 
- * To Do List:
- * 
- * C1:
- * En bil k¨or genom en kurva (del av en cirkel) med viss radie och viss statisk friktionskoefficient mellan d¨ack och v¨agbana. Man ska under körning (för varje ny bil) kunna ¨oka farten tills bilen inte l¨angre klarar kurvan. D˚a skrivs en text
- * ut som s¨ager n˚agot om att det inte gick. Man ska ha tv˚a olika kurvor med olika radie men samma friktionskoefficient att v¨alja mellan. Uppgiften ska l¨osas med en iterativ numerisk metod.
- * 
- * Tolkning
- * 
- * To Do List:
- * 
- */
