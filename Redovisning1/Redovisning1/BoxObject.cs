@@ -7,8 +7,8 @@ namespace Redovisning1 {
         Form1 form1;
         Rectangle boxRect, boxSource;
         Texture2D spriteSheet;
-        Vector2 pos, startPos, pixelPos, direction, speed, a, friction;
-        float rotation, time, startSpeed, u, g, fa;
+        Vector2 pos, startPos, pixelPos, direction, speed, friction;
+        float rotation, time, startSpeed, u, g, fa, fMax, a;
 
         public BoxObject(Texture2D spriteSheet, float rotation, Form1 form1) {
             this.form1 = form1;
@@ -19,8 +19,8 @@ namespace Redovisning1 {
             g = -9.82f;
             startSpeed = 0;
             time = 0;
+            fMax = (float)(g * ((Math.Sin(rotation) - (Math.Cos(rotation)))* u));
             u = 0.1f;
-            a = new Vector2((float)(-g * Math.Cos(rotation)), (float)(g * Math.Sin(rotation)));
             speed = new Vector2((float)(startSpeed * Math.Cos(rotation)), (float)(startSpeed * Math.Sin(rotation)));
             friction = new Vector2(0, 0);
             boxRect = new Rectangle((int)pos.X, (int)pos.Y, 25, 25);
@@ -37,13 +37,18 @@ namespace Redovisning1 {
         }
 
         public void Fall(GameTime gameTime) {
-            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             fa = (float)(g * (Math.Sin(rotation) - (Math.Cos(rotation) * u)));
-            friction.X = (float)(-fa * Math.Cos(rotation)); 
-            friction.Y = (float)(fa * Math.Sin(rotation));
 
-            pos.X = (float)(startPos.X + (((friction.X) * Math.Pow(time, 2)) / 2));
-            pos.Y = (float)(startPos.Y + (((friction.Y) * Math.Pow(time, 2)) / 2));
+            if (fa <= fMax) {
+                time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                friction.X = (float)(-fa * Math.Cos(rotation));
+                friction.Y = (float)(fa * Math.Sin(rotation));
+
+                pos.X = (float)(startPos.X + (((friction.X) * Math.Pow(time, 2)) / 2));
+                pos.Y = (float)(startPos.Y + (((friction.Y) * Math.Pow(time, 2)) / 2));
+            }
+           
+            
         }
 
         public void Draw(SpriteBatch sb) {
