@@ -10,7 +10,7 @@ namespace Redovisning2 {
         Form1 form1;
         CarObject carO;
         int screenWidth, screenHeight;
-        bool isPlaying;
+        bool isPlaying, quit;
         List<CarObject> carList;
 
         public Game1() {
@@ -36,6 +36,7 @@ namespace Redovisning2 {
 
         protected override void Update(GameTime gameTime) {
             isPlaying = form1.GetPlaying();
+            quit = form1.GetQuit();
             if(isPlaying) {
                 if(carList.Count <= 0) {
                     CreateCar();
@@ -48,6 +49,9 @@ namespace Redovisning2 {
                 }
             }
             base.Update(gameTime);
+            if(quit == true) {
+                Exit();
+            }
         }
 
         public void CreateCar() {
@@ -57,7 +61,7 @@ namespace Redovisning2 {
 
         public void KillCar() {
             carList.Clear();
-        }
+        }  
 
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.White);
