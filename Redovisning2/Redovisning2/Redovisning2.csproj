@@ -41,6 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CarObject.cs" />
+    <Compile Include="Conversion.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

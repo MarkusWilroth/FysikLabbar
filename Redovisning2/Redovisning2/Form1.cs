@@ -11,24 +11,23 @@ using System.Windows.Forms;
 namespace Redovisning2 {
     public partial class Form1 : Form {
         private bool isPlaying, isQuit;
-        private int activeCurve, speed;
-        private float my;
+        private int speed;
+        private float my, curveR;
 
         public Form1() {
             InitializeComponent();
             isQuit = false;
             isPlaying = false;
-            activeCurve = 1;
         }
 
         private void btn_Kurva1_Click(object sender, EventArgs e) {
-            activeCurve = 1;
+            curveR = 1; //radie för kurvarn, ska nog ändras till något annat mer passande senare
             txb_Output.Text = "Aktiverad Kurva: 1";
 
         }
 
         private void btn_Kurva2_Click(object sender, EventArgs e) {
-            activeCurve = 2;
+            curveR = 2;
             txb_Output.Text = "Aktiverad Kurva: 2";
 
         }
@@ -74,8 +73,8 @@ namespace Redovisning2 {
             return speed;
         }
 
-        public int GetCurve() {
-            return activeCurve;
+        public float GetCurve() {
+            return curveR;
         }
 
         public bool GetPlaying() {
