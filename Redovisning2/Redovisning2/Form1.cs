@@ -16,6 +16,7 @@ namespace Redovisning2 {
 
         public Form1() {
             InitializeComponent();
+            curveR = 300;
             isQuit = false;
             isPlaying = false;
         }

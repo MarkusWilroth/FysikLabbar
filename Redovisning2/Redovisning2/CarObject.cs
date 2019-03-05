@@ -17,10 +17,11 @@ namespace Redovisning2 {
             this.form = form;
             g = 9.82f;
             speed = form.GetSpeed();
+            v = (float)(speed / 3.6);
             my = form.GetMy();
             curveR = form.GetCurve();
             Fr = my * g;
-            Fc = (float)(Math.Pow(speed, 2) / curveR);
+            Fc = (float)(Math.Pow(v, 2) / curveR);
             if (Fr > Fc) {
                 Console.WriteLine("Success?");
             }
