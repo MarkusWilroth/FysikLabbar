@@ -12,7 +12,7 @@ namespace Redovisning2 {
     public partial class Form1 : Form {
         private bool isPlaying, isQuit;
         private int speed;
-        private float my, curveR;
+        private float my, curveR, curve;
 
         public Form1() {
             InitializeComponent();
@@ -24,13 +24,13 @@ namespace Redovisning2 {
         private void btn_Kurva1_Click(object sender, EventArgs e) {
             curveR = 300; //radie för kurvarn, ska nog ändras till något annat mer passande senare
             txb_Output.Text = "Aktiverad Kurva: 1";
-
+            curve = 1;
         }
 
         private void btn_Kurva2_Click(object sender, EventArgs e) {
             curveR = 600;
             txb_Output.Text = "Aktiverad Kurva: 2";
-
+            curve = 1.1f;
         }
 
         private void btn_Start_Click(object sender, EventArgs e) {
@@ -68,6 +68,10 @@ namespace Redovisning2 {
         #region Values
         public float GetMy() {
             return my;
+        }
+
+        public float SendCurve() {
+            return curve;
         }
 
         public int GetSpeed() {

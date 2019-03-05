@@ -9,8 +9,10 @@ namespace Redovisning2 {
         SpriteBatch spriteBatch;
         Form1 form1;
         CarObject carO;
+        Texture2D spriteSheet;
         int screenWidth, screenHeight;
         bool isPlaying, quit;
+        float rotation;
         List<CarObject> carList;
 
         public Game1() {
@@ -31,6 +33,8 @@ namespace Redovisning2 {
 
         protected override void LoadContent() {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteSheet = Content.Load<Texture2D>("spriteSheet-C2");
+
             form1.Activate();
         }
 
@@ -55,7 +59,7 @@ namespace Redovisning2 {
         }
 
         public void CreateCar() {
-            carO = new CarObject(form1);
+            carO = new CarObject(form1, spriteSheet, rotation);
             carList.Add(carO);
         }
 
