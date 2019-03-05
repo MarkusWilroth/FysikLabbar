@@ -79,6 +79,11 @@
             // NUD_Hastighet
             // 
             this.NUD_Hastighet.Location = new System.Drawing.Point(13, 88);
+            this.NUD_Hastighet.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NUD_Hastighet.Name = "NUD_Hastighet";
             this.NUD_Hastighet.Size = new System.Drawing.Size(162, 20);
             this.NUD_Hastighet.TabIndex = 3;

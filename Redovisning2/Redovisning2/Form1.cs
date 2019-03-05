@@ -21,13 +21,13 @@ namespace Redovisning2 {
         }
 
         private void btn_Kurva1_Click(object sender, EventArgs e) {
-            curveR = 1; //radie för kurvarn, ska nog ändras till något annat mer passande senare
+            curveR = 300; //radie för kurvarn, ska nog ändras till något annat mer passande senare
             txb_Output.Text = "Aktiverad Kurva: 1";
 
         }
 
         private void btn_Kurva2_Click(object sender, EventArgs e) {
-            curveR = 2;
+            curveR = 600;
             txb_Output.Text = "Aktiverad Kurva: 2";
 
         }
