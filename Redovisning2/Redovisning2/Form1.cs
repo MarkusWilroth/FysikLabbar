@@ -16,19 +16,19 @@ namespace Redovisning2 {
 
         public Form1() {
             InitializeComponent();
-            curveR = 300;
+            curveR = 30;
             isQuit = false;
             isPlaying = false;
         }
 
         private void btn_Kurva1_Click(object sender, EventArgs e) {
-            curveR = 300; //radie för kurvarn, ska nog ändras till något annat mer passande senare
+            curveR = 30; //radie för kurvarn, ska nog ändras till något annat mer passande senare
             txb_Output.Text = "Aktiverad Kurva: 1";
             curve = 1;
         }
 
         private void btn_Kurva2_Click(object sender, EventArgs e) {
-            curveR = 600;
+            curveR = 60;
             txb_Output.Text = "Aktiverad Kurva: 2";
             curve = 1.1f;
         }

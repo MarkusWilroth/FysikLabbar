@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Redovisning2 {
     class CarObject {
-        int speed; //ska nog vara i km istället för m??
-        float my, curveR, Fc, Fr, g, v, rotation, time, curve;
+        int speed;
+        float my, curveR, Fc, Fr, g, v, rotation, time, curve, angle, w, fMax;
         Texture2D spriteSheet;
-        Vector2 carPos, startPos;
-        Rectangle carRect, carSource;
+        Vector2 carPos, startPos, convertedPos, friction;
+        Rectangle carRect, carSource, roadSource;
         Form1 form;
 
         public CarObject(Form1 form, Texture2D spriteSheet, float rotation) { //ska sedan ha spriteSheet i sig men har inte gjort något sådant
@@ -25,43 +25,53 @@ namespace Redovisning2 {
             v = (float)(speed / 3.6);
             my = form.GetMy();
             curveR = form.GetCurve();
+            curve = form.SendCurve();
             Fr = my * g;
+            angle = 0;
             Fc = (float)(Math.Pow(v, 2) / curveR);
-            carPos = new Vector2(400 * curve, 430);
+            carPos = new Vector2(curveR, 0);
             startPos = carPos;
+            fMax = (float)(g * (Math.Sin(rotation) - (Math.Cos(rotation) * my)));
             carRect = new Rectangle((int)carPos.X, (int)carPos.Y, 15, 25);
             carSource = new Rectangle(5, 5, 15, 25);
+            roadSource = new Rectangle(0, 31, 514, 716);
             if (Fr > Fc) {
                 Console.WriteLine("Success?");
             }
+            w = v / curveR;
         }
         public void Update(GameTime gameTime) {
-            curve = form.SendCurve();
+            Drive(gameTime);
+            convertedPos = Conversion.PosToPixel(carPos);
+            convertedPos.Y -= 25;
         }
 
         public void Drive(GameTime gameTime) {
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            carPos.X = (float)(startPos.X + (((Fr) * Math.Pow(time, 2)) / 2));
-            carPos.Y = (float)(startPos.Y + (((Fr) * Math.Pow(time, 2)) / 2));
+            angle = (float)(w * time);
+            //carPos.X = (float)Math.Cos(angle) * v; //Startar inte där den ska starta och har inte friktion med i uträkningen?!?!
+            //carPos.Y = (float)(Math.Sin(angle) * v);
+
+            Fr = (float)(g * (Math.Sin(angle) - (Math.Cos(angle) * my)));
+
+            friction.X = (float)(-Fr * Math.Cos(angle));
+                friction.Y = (float)(Fr * Math.Sin(angle));
+
+                carPos.X = (float)(startPos.X + (((friction.X))));
+                carPos.Y = (float)(startPos.Y + (((friction.Y))));
+
+
+
+
+                //carPos.X = (float)(startPos.X + (((Fr) * Math.Pow(time, 2)) / 2));
+                //carPos.Y = (float)(startPos.Y + (((Fr) * Math.Pow(time, 2)) / 2));
+            
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(spriteSheet, carRect, carSource, Color.White, rotation, new Vector2(carRect.Width / 2, carRect.Height / 2), SpriteEffects.None, 1);
+            sb.Draw(spriteSheet, convertedPos, carSource, Color.White);
+            sb.Draw(spriteSheet, new Vector2(0, 1000), roadSource, Color.White);
         }
     }
 }
-/* Anteckningar från bild:
- * 0m Fr(max) > Fc
-    else
-    Fr = m*a
-    Fr = my*m*g???
- * a = 0c = ?^2/r
- * 
- * Hittat från internet:
- (m*v^2)/r = my*m*g
- v^2 = my*g*r
-
-    För att bilen ska kunna håla sig kvar på vägen måste Fc >= (m*v^2)/r
-    Fc = my*m*g;
- */

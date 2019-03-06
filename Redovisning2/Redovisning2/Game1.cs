@@ -23,11 +23,12 @@ namespace Redovisning2 {
             carList = new List<CarObject>();
             screenWidth = 1900;
             screenHeight = 1000;
+
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
         }
 
         protected override void Initialize() {
-            graphics.PreferredBackBufferWidth = screenWidth;
-            graphics.PreferredBackBufferHeight = screenHeight;
             base.Initialize();
         }
 
