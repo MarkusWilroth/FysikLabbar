@@ -58,7 +58,7 @@ namespace Redovisning2 {
 
             //Fr = (float)(g * (Math.Sin(angle) - (Math.Cos(angle) * my)));
             time = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            angle = (float)(Math.Atan2(velocity.X, velocity.Y) * 180 / Math.PI);
+            angle = (float)(Math.Atan2(velocity.Y, velocity.X) * 180 / Math.PI);
 
             //aDirection = new Vector2((float)Math.Cos(angle + 90), (float)(Math.Sin(angle + 90) * ac * (Math.Pow(time,2)/2)));
             //direction = new Vector2((float)(Math.Cos(angle)*Math.PI/180), (float)((Math.Sin(angle)*Math.PI/180) * v * (Math.Pow(time, 2) / 2)));
