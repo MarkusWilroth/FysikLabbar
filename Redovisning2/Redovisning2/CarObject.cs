@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Redovisning2 {
     class CarObject {
         int speed;
-        float my, curveR, Fc, Fr, g, v, rotation, time, curve, angle, ac, fMax, dir, vel;
+        float my, curveR, Fc, Fr, g, v, rotation, time, curve, angle, ac, fMax, dir, vel, centripetalAcc;
         Texture2D spriteSheet;
         Vector2 carPos, startPos, convertedPos, aDirection, direction, velocity, centripetalDirection;
         Rectangle carRect, carSource, roadSource;
@@ -35,10 +35,11 @@ namespace Redovisning2 {
             ac = (float)Math.Pow(v,2) / curveR;
             fMax = g * my;
 
-            angle = 0;
+            angle = 30;
             time = 0;
-            carPos = new Vector2(curveR, 0);
-            velocity = new Vector2(0, 0);
+            carPos = new Vector2(curveR, 20);
+            direction = new Vector2((float)Math.Cos((angle) * Math.PI / 180), (float)Math.Sin((angle) * Math.PI / 180));
+            velocity = direction * v;
             startPos = carPos;
             carRect = new Rectangle((int)carPos.X, (int)carPos.Y, 15, 25);
             carSource = new Rectangle(5, 5, 15, 25);
@@ -47,8 +48,8 @@ namespace Redovisning2 {
         }
         public void Update(GameTime gameTime) {
             Drive(gameTime);
-            convertedPos = Conversion.PosToPixel(carPos);
-            convertedPos.Y -= 25;
+            
+            //convertedPos.Y -= 25;
         }
 
         public void Drive(GameTime gameTime) {
@@ -57,8 +58,6 @@ namespace Redovisning2 {
             //carPos.Y = (float)(Math.Sin(angle) * v);
 
             //Fr = (float)(g * (Math.Sin(angle) - (Math.Cos(angle) * my)));
-            time = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            angle = (float)(Math.Atan2(velocity.Y, velocity.X) * 180 / Math.PI);
 
             //aDirection = new Vector2((float)Math.Cos(angle + 90), (float)(Math.Sin(angle + 90) * ac * (Math.Pow(time,2)/2)));
             //direction = new Vector2((float)(Math.Cos(angle)*Math.PI/180), (float)((Math.Sin(angle)*Math.PI/180) * v * (Math.Pow(time, 2) / 2)));
@@ -69,14 +68,28 @@ namespace Redovisning2 {
             //carPos.X += (float)(velocity.X);
             //carPos.Y += (float)(velocity.Y);
 
-            centripetalDirection.X = (float)(Fc * Math.Cos(angle) * time);
-            centripetalDirection.Y = (float)(Fc * Math.Sin(angle) * time);
+            time = gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            
+            centripetalAcc = v * v / curveR;
 
-            direction = new Vector2((float)(Math.Cos(angle) * Math.PI / 180), (float)((Math.Sin(angle) * Math.PI / 180) * v));
-            velocity = direction + centripetalDirection;            
+            if (fMax > centripetalAcc)
+            {
+                centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * centripetalAcc * time);
+            }
 
-            carPos.X += (float)(velocity.X * time);
-            carPos.Y += (float)(velocity.Y * time);
+            else
+            {
+                centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * fMax * time);
+            }
+
+            direction = new Vector2((float)Math.Cos(angle * Math.PI / 180), (float)(Math.Sin(angle * Math.PI / 180)) * v);
+            velocity = direction + centripetalDirection;
+
+            angle = (float)(Math.Atan2(velocity.Y, velocity.X) * 180 / Math.PI);
+
+            convertedPos = Conversion.PosToPixel(carPos);
+
+            carPos += velocity * time;
 
             //carPos.X = (float)(startPos.X + (((Fr) * Math.Pow(time, 2)) / 2));
             //carPos.Y = (float)(startPos.Y + (((Fr) * Math.Pow(time, 2)) / 2));

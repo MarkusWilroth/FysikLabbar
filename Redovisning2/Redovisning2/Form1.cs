@@ -78,6 +78,11 @@ namespace Redovisning2 {
             return speed;
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
         public float GetCurve() {
             return curveR;
         }
