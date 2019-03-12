@@ -65,7 +65,7 @@ namespace FysikProjektC1
                 centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180)) * Ffmax * timeSinceLast;
                 result = "FAILURE! We're off track!";
             }
-            System.Diagnostics.Debug.WriteLine("Ffmax " + Ffmax + "  centripetalAcc " + centripetalAcceleration + "  Result: " + result);
+            System.Diagnostics.Debug.WriteLine("Ffmax " + Ffmax + "  centripetalAcc " + centripetalAcceleration + "  Angle: " + angle + " velocity: " + velocity + " direction: " + direction);
             direction = new Vector2((float)Math.Cos(angle * Math.PI / 180), (float)Math.Sin(angle * Math.PI / 180)) * speed;
             velocity = direction + centripetalDirection;
 

@@ -33,11 +33,11 @@ namespace Redovisning2 {
 
             aDirection = new Vector2(0, 0);
             ac = (float)Math.Pow(v,2) / curveR;
-            fMax = g * my;
+            
 
-            angle = 30;
+            angle = 90;
             time = 0;
-            carPos = new Vector2(curveR, 20);
+            carPos = new Vector2(curveR, 10);
             direction = new Vector2((float)Math.Cos((angle) * Math.PI / 180), (float)Math.Sin((angle) * Math.PI / 180));
             velocity = direction * v;
             startPos = carPos;
@@ -69,8 +69,9 @@ namespace Redovisning2 {
             //carPos.Y += (float)(velocity.Y);
 
             time = gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            
-            centripetalAcc = v * v / curveR;
+            float fMax = g * my;
+            float centripetalAcc = v * v / curveR;
+            Vector2 centripetalDirection;
 
             if (fMax > centripetalAcc)
             {
@@ -81,11 +82,13 @@ namespace Redovisning2 {
             {
                 centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * fMax * time);
             }
-
+            System.Diagnostics.Debug.WriteLine("Ffmax " + fMax + "  centripetalAcc " + centripetalAcc + ", angle: " + angle + " velocity: " + velocity + " direction: " + direction);
             direction = new Vector2((float)Math.Cos(angle * Math.PI / 180), (float)(Math.Sin(angle * Math.PI / 180)) * v);
             velocity = direction + centripetalDirection;
 
-            angle = (float)(Math.Atan2(velocity.Y, velocity.X) * 180 / Math.PI);
+
+            float TURN = (float)Math.Atan2(velocity.Y, velocity.X) * 180 / (float)Math.PI;
+            angle = TURN;
 
             convertedPos = Conversion.PosToPixel(carPos);
 
@@ -97,7 +100,7 @@ namespace Redovisning2 {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(spriteSheet, convertedPos, carSource, Color.White);
+            sb.Draw(spriteSheet, convertedPos, carSource, Color.White, -(float)(angle * Math.PI / 180 + 90 * Math.PI / 180), new Vector2(carRect.Width / 2, carRect.Height / 2), 1, SpriteEffects.None, 1);
             sb.Draw(spriteSheet, new Vector2(0, 1000), roadSource, Color.White);
         }
     }
