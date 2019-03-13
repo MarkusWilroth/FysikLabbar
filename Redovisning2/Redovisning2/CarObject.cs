@@ -37,7 +37,7 @@ namespace Redovisning2 {
 
             angle = 90;
             time = 0;
-            carPos = new Vector2(curveR, 10);
+            carPos = new Vector2(curveR, 0);
             direction = new Vector2((float)Math.Cos((angle) * Math.PI / 180), (float)Math.Sin((angle) * Math.PI / 180));
             velocity = direction * v;
             startPos = carPos;
@@ -75,7 +75,9 @@ namespace Redovisning2 {
 
             if (fMax > centripetalAcc)
             {
-                centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * centripetalAcc * time);
+                //centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * centripetalAcc * time);
+                centripetalDirection.X = (float)(Math.Cos((angle + 90) * Math.PI / 180) * centripetalAcc * time);
+                centripetalDirection.Y = (float)(Math.Sin((angle + 90) * Math.PI / 180) * centripetalAcc * time);
             }
 
             else
@@ -83,7 +85,10 @@ namespace Redovisning2 {
                 centripetalDirection = new Vector2((float)Math.Cos((angle + 90) * Math.PI / 180), (float)Math.Sin((angle + 90) * Math.PI / 180) * fMax * time);
             }
             System.Diagnostics.Debug.WriteLine("Ffmax " + fMax + "  centripetalAcc " + centripetalAcc + ", angle: " + angle + " velocity: " + velocity + " direction: " + direction);
-            direction = new Vector2((float)Math.Cos(angle * Math.PI / 180), (float)(Math.Sin(angle * Math.PI / 180)) * v);
+            direction.X = (float)(Math.Cos(angle * Math.PI / 180));
+            direction.Y = (float)(Math.Sin(angle * Math.PI / 180));
+            direction *= v;
+            //direction = new Vector2((float)Math.Cos(angle * Math.PI / 180), (float)(Math.Sin(angle * Math.PI / 180)) * v);
             velocity = direction + centripetalDirection;
 
 
