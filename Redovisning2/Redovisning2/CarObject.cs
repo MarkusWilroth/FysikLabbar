@@ -25,25 +25,20 @@ namespace Redovisning2 {
             v = (float)(speed / 3.6); //Ändrar det till m/s
             my = form.GetMy(); //Får my
             curveR = form.GetCurve(); //Får radien av cirkeln
+            fMax = g * my;
+            //centripetalAcc = v * v / curveR;
+
             Fr = my * g;
             Fc = (float)(Math.Pow(v, 2) / curveR);
+
             if (Fr > Fc) {
                 Console.WriteLine("Success");
             }
-
-            aDirection = new Vector2(0, 0);
-            ac = (float)Math.Pow(v,2) / curveR;
             
-
             angle = 90;
             time = 0;
-            carPos = new Vector2(curveR, 0);
-            direction = new Vector2((float)Math.Cos((angle) * Math.PI / 180), (float)Math.Sin((angle) * Math.PI / 180));
-            velocity = direction * v;
-            startPos = carPos;
-            carRect = new Rectangle((int)carPos.X, (int)carPos.Y, 15, 25);
+            carPos = new Vector2(60, 30);
             carSource = new Rectangle(5, 5, 15, 25);
-            roadSource = new Rectangle(0, 31, 514, 716);
             
         }
         public void Update(GameTime gameTime) {
@@ -52,26 +47,24 @@ namespace Redovisning2 {
 
         public void Drive(GameTime gameTime) {
             time = gameTime.ElapsedGameTime.Milliseconds / 1000f;
-            fMax = g * my;
-            centripetalAcc = v * v / curveR;
 
-            if (fMax > centripetalAcc)
-            {
-                centripetalDirection.X = (float)(Math.Cos((angle + 90) * Math.PI / 180) * centripetalAcc * time);
-                centripetalDirection.Y = (float)(Math.Sin((angle + 90) * Math.PI / 180) * centripetalAcc * time);
+            if (fMax > Fc) {
+                centripetalDirection.X = (float)(Math.Cos((angle + 90) * Math.PI / 180) * Fc * time);
+                centripetalDirection.Y = (float)(Math.Sin((angle + 90) * Math.PI / 180) * Fc * time);
+                Console.WriteLine("Success");
             }
 
-            else
-            {
+            else {
                 centripetalDirection.X = (float)(Math.Cos((angle + 90) * Math.PI / 180) * fMax * time);
                 centripetalDirection.Y = (float)(Math.Sin((angle + 90) * Math.PI / 180) * fMax * time);
+                Console.WriteLine("Fail");
             }
+
             System.Diagnostics.Debug.WriteLine("Ffmax " + fMax + "  centripetalAcc " + centripetalAcc + ", angle: " + angle + " velocity: " + velocity + " direction: " + direction);
             direction.X = (float)(Math.Cos(angle * Math.PI / 180));
             direction.Y = (float)(Math.Sin(angle * Math.PI / 180));
             direction *= v;
             velocity = direction + centripetalDirection;
-
 
             float TURN = (float)Math.Atan2(velocity.Y, velocity.X) * 180 / (float)Math.PI;
             angle = TURN;
