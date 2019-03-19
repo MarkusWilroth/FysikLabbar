@@ -72,3 +72,6 @@ namespace FysikLabb0 {
  * 
  * GLÖM INTE ATT ANVÄNDA SI-ENHETERNA och att använda gameTime för att inte räkna tiden på pixlar
  */
+/*
+    Program A1 utökas med golv och väggar (och ev tak) som bollen kan studsa mot. Golvet ska ha ett annat värde på elasticiteten än vad väggarna har.
+*/
