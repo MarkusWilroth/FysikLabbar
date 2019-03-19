@@ -47,8 +47,8 @@ namespace FysikLabb0 {
             alfa = 45;
             isFlying = false;
 
-            speedBox = "" + selectedSpeed;
-            alfaBox = "" + alfa;
+            speedBox = "Speed: " + selectedSpeed;
+            alfaBox = "Angle: " + alfa;
             
 
             for (int i = 0; i < boxPos.Length; i++) {
@@ -61,6 +61,7 @@ namespace FysikLabb0 {
         }
 
         public void ShootBall(GameTime gameTime) {
+            
             dTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //gravitation *= dTime;
@@ -70,37 +71,26 @@ namespace FysikLabb0 {
 
             direction.X = (float)Math.Cos(alfaInRad);
             direction.Y = (float)Math.Sin(alfaInRad);
-            direction *= v;
+            direction *= selectedSpeed;
 
             velocity.X = direction.X;
             velocity.Y = direction.Y + (gravitation*time);
-            c = (float)(Math.Pow((Math.Pow(s.X, 2) + Math.Pow(s.Y, 2)), 0.5));
-            alfaInRad = (float)Math.Cosh((s.X/c));  
+            s += velocity * dTime;
+
+            //c = (float)(Math.Pow((Math.Pow((s.X-s0.X), 2) + Math.Pow((s.Y-s0.Y), 2)), 0.5));
+            //alfaInRad = (float)Math.Cosh((((s.X - s0.X)/c)));
+
             //alfaInRad = (float)((Math.PI / 180) * alfa);
 
-            s += velocity * dTime;
+            Console.WriteLine("Vinkel: " + ((alfaInRad * 180) / (Math.PI)));
+            //Console.WriteLine("Vinkel: " + alfaInRad);
+            alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
             //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
             //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
-            
-            
-            //if (convertedS.X >= 1900) {
-            //    isMovingLeft = true;
-            //}
-            //else if(convertedS.X <= 0) {
-            //    isMovingLeft = false;
-            //}
-            //if(convertedS.Y >= 1000) {
-            //    isMovingUp = false;
-            //}
-            //else if(convertedS.Y <= 0) {
-            //    isMovingUp = true;
-            //    v *= elastG;
-            //}
 
-            //if(isMovingUp) {
 
-            //}
+
             //speedB = v;
             //v.X = (massB * speedB.X + massW * speedW.X + elastG * massW * (speedW.X - speedB.X)) / (massB + massW);
             //v.Y = (massB * speedB.Y + massW * speedW.Y + elastG * massW * (speedW.Y - speedB.Y)) / (massB + massW);
@@ -113,7 +103,7 @@ namespace FysikLabb0 {
             if (keyState.IsKeyDown(Keys.S) && oldKeyState.IsKeyUp(Keys.S) && selectedSpeed > 10) {
                 selectedSpeed -= 10;
             }
-            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 85) {
+            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 90) {
                 alfa += 5;
             }
             if (keyState.IsKeyDown(Keys.D) && oldKeyState.IsKeyUp(Keys.D) && alfa > 5) {
@@ -136,8 +126,8 @@ namespace FysikLabb0 {
             }
             
 
-            speedBox = "" + selectedSpeed;
-            alfaBox = "" + alfa;
+            speedBox = "Speed: " + selectedSpeed;
+            alfaBox = "Angle: " + alfa;
         }
 
         public void MoveBall () { //Fixa så att man inte kan styra bollen utanför skärmen eller inte?
@@ -165,6 +155,7 @@ namespace FysikLabb0 {
             if (!isFlying) {
                 if (keyState.IsKeyDown(Keys.Enter) && oldKeyState.IsKeyUp(Keys.Enter)) {
                     isFlying = true;
+                    Console.WriteLine("-------------------------------------------------");
                 }
                 if (keyState.IsKeyDown(Keys.Escape) && oldKeyState.IsKeyUp(Keys.Escape)) {
                     game.Exit();
@@ -189,10 +180,10 @@ namespace FysikLabb0 {
             for (int i = 0; i < boxPos.Length; i++) {
                 spriteBatch.Draw(spriteSheet, boxPos[i], boxSource, Color.White);
                 if (i == 0) {
-                    spriteBatch.DrawString(spriteFont, speedBox, new Vector2(boxPos[i].X + (boxPos[i].Width / 2), boxPos[i].Y + (boxPos[i].Height / 2)), Color.Black);
+                    spriteBatch.DrawString(spriteFont, speedBox, new Vector2(boxPos[i].X + (boxPos[i].Width / 4), boxPos[i].Y + (boxPos[i].Height / 2)), Color.Black);
                 }
                 if (i == 1) {
-                    spriteBatch.DrawString(spriteFont, alfaBox, new Vector2(boxPos[i].X + (boxPos[i].Width / 2), boxPos[i].Y + (boxPos[i].Height / 2)), Color.Black);
+                    spriteBatch.DrawString(spriteFont, alfaBox, new Vector2(boxPos[i].X + (boxPos[i].Width / 4), boxPos[i].Y + (boxPos[i].Height / 2)), Color.Black);
                 }
 
             }
