@@ -13,7 +13,7 @@ namespace FysikLabb0 {
         String speedBox, alfaBox;
         Rectangle[] boxPos, numberPos;
 
-        float dTime, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, massB, massW, c;
+        float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, massB, massW, c, dirX, dirY;
         bool isFlying, isMovingUp, isMovingLeft;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
@@ -37,12 +37,14 @@ namespace FysikLabb0 {
 
 
             v0 = new Vector2(30, 35);
+            dirX = 1;
+            dirY = 1;
             v = v0;
             gravitation = -9.82f;
             s0 = new Vector2(ballRect.X, ballRect.Y);
             convertedS = new Vector2(0, 0);
             s = s0;
-            dTime = 0;
+            timer = 0;
             selectedSpeed = 45;
             alfa = 45;
             isFlying = false;
@@ -60,40 +62,59 @@ namespace FysikLabb0 {
             return s;
         }
 
-        public void ShootBall(GameTime gameTime) {
-            
-            dTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        public void ShootBall(GameTime gameTime) {            
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //gravitation *= dTime;
-            //v.X = v0.X; //Lägg till luftmotstånd?
-            //v.Y = v0.Y + (gravitation * time);
+            v.X = v0.X; //Lägg till luftmotstånd?
+            v.Y = v0.Y + (gravitation*time);
 
+            s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
+            s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
 
-            direction.X = (float)Math.Cos(alfaInRad);
-            direction.Y = (float)Math.Sin(alfaInRad);
-            direction *= selectedSpeed;
+            //direction.X = (float)Math.Cos(alfaInRad);
+            //direction.Y = (float)Math.Sin(alfaInRad);
+            //direction *= selectedSpeed;
 
-            velocity.X = direction.X;
-            velocity.Y = direction.Y + (gravitation*time);
-            s += velocity * dTime;
+            //velocity.X = direction.X;
+            //velocity.Y = direction.Y + (gravitation*time);
 
-            //c = (float)(Math.Pow((Math.Pow((s.X-s0.X), 2) + Math.Pow((s.Y-s0.Y), 2)), 0.5));
-            //alfaInRad = (float)Math.Cosh((((s.X - s0.X)/c)));
+            //s.Y += velocity.Y * dTime;
+            //s.X += velocity.X * dTime;
+
+            //c = (float)(Math.Pow((Math.Pow((s.X - s0.X), 2) + Math.Pow((s.Y - s0.Y), 2)), 0.5));
+            //alfaInRad = (float)Math.Acos((((s.X - s0.X) / c)));
 
             //alfaInRad = (float)((Math.PI / 180) * alfa);
 
-            Console.WriteLine("Vinkel: " + ((alfaInRad * 180) / (Math.PI)));
-            //Console.WriteLine("Vinkel: " + alfaInRad);
-            alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
+            Console.WriteLine("sträckaX: " + s.X + " SträckaY: "+s.Y);
+            ////Console.WriteLine("Vinkel: " + alfaInRad);
+            //alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
-            //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
-            //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
-
-
-
+             if(timer >= 1) {
+                if (convertedS.X >= 1900) { //Ändra så att den ändrar X-riktning
+                    v0.X *= -1;
+                    timer = 0;
+                }
+                if (convertedS.X <= 0) { //Ändrar så att den ändrar x-riktning
+                    v0.X *= 1;
+                    timer = 0;
+                }
+                if (convertedS.Y <= 0) {
+                    v0.Y *= -1;
+                    timer = 0;
+                }
+                if (convertedS.Y >= 1000) {
+                    v0.Y *= 1;
+                    timer = 0;
+                }
+            }
+            
             //speedB = v;
             //v.X = (massB * speedB.X + massW * speedW.X + elastG * massW * (speedW.X - speedB.X)) / (massB + massW);
             //v.Y = (massB * speedB.Y + massW * speedW.Y + elastG * massW * (speedW.Y - speedB.Y)) / (massB + massW);
+
+            //selectedSpeed = (massB * velocity.Y + massW * speedW.Y + elastG * massW * (speedW.Y - velocity.Y)) / (massB + massW);
         }
 
         public void ChangeValues() {
@@ -103,7 +124,7 @@ namespace FysikLabb0 {
             if (keyState.IsKeyDown(Keys.S) && oldKeyState.IsKeyUp(Keys.S) && selectedSpeed > 10) {
                 selectedSpeed -= 10;
             }
-            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 90) {
+            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 180) {
                 alfa += 5;
             }
             if (keyState.IsKeyDown(Keys.D) && oldKeyState.IsKeyUp(Keys.D) && alfa > 5) {
@@ -111,18 +132,18 @@ namespace FysikLabb0 {
             }
 
             alfaInRad = (float)((Math.PI / 180) * alfa); //Fixar från grader till radianer
-            v.X = (float)Math.Pow((Math.Pow(selectedSpeed, 2) / 2), 0.5); //första delen av att räkna ut vad v0.X är använder samband mellan ekvationer
-            v.X /= (float)(Math.Tan(alfaInRad));
+            v0.X = (float)Math.Pow((Math.Pow(selectedSpeed, 2) / 2), 0.5); //första delen av att räkna ut vad v0.X är använder samband mellan ekvationer
+            v0.X /= (float)(Math.Tan(alfaInRad));
             // tan(a) = v0.Y / v0.X
             // v0.Y = tan(a) * v0.X
             // v0.Y = rot(selectedSpeed^2 - v0.X^2)
             // v0.X * tan(a) = rot(selectedSpeed^2 - v0.X^2)
             calc = (float)(Math.Pow(selectedSpeed, 2) - Math.Pow(v0.X, 2));
             if (calc > 0) {
-                v.Y = (float)(Math.Pow(calc, 0.5));
+                v0.Y = (float)(Math.Pow(calc, 0.5));
             }
             else {
-                v.Y = (float)(Math.Pow(((-1)* calc), 0.5));
+                v0.Y = (float)(Math.Pow(((-1)* calc), 0.5));
             }
             
 
