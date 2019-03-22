@@ -61,15 +61,16 @@ namespace FysikLabb0 {
 
         public void ShootBall(GameTime gameTime) {            
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            time = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
             //gravitation *= dTime;
             v.X = v0.X; //Lägg till luftmotstånd?
-            v.Y = v0.Y + (gravitation);
+            v.Y = v0.Y;
 
             //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
             //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
-            s.X += v.X / frameMovement;
-            s.Y += v.Y / frameMovement;
+            s.X += v.X * time;
+            //gravitation = (float)(9.82/timer);
+            s.Y += (v.Y) * time;
 
             //direction.X = (float)Math.Cos(alfaInRad);
             //direction.Y = (float)Math.Sin(alfaInRad);
@@ -92,19 +93,20 @@ namespace FysikLabb0 {
 
 
             if (convertedS.X >= 1900 && !isMovingLeft) { //Ändra så att den ändrar X-riktning
-                v0.X *= -1;
+                v0.X = -v0.X;
                 isMovingLeft = true;
             }
             if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
-                v0.X *= 1;
+                v0.X = -v0.X;
                 isMovingLeft = false;
             }
             if (convertedS.Y <= 0 && !isMovingUp) {
-                v0.Y *= -1;
+                v0.Y = -v0.Y;
+                v0.Y *= elastG;
                 isMovingUp = true;
             }
             if (convertedS.Y >= 1000 && isMovingUp) {
-                v0.Y *= 1;
+                v0.Y = -v0.Y;
                 isMovingUp = false;
             }
 
