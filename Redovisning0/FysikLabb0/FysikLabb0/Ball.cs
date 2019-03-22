@@ -13,7 +13,7 @@ namespace FysikLabb0 {
         String speedBox, alfaBox;
         Rectangle[] boxPos, numberPos;
 
-        float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, massB, massW, c, dirX, dirY;
+        float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, frameMovement;
         bool isFlying, isMovingUp, isMovingLeft;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
@@ -30,15 +30,12 @@ namespace FysikLabb0 {
 
             elastG = 1.5f;
             elastV = 1;
-            massB = 1;
-            massW = 0;
+            frameMovement = 30;
             speedB = new Vector2(0, 0);
             speedW = new Vector2(0, 0);
 
 
             v0 = new Vector2(30, 35);
-            dirX = 1;
-            dirY = 1;
             v = v0;
             gravitation = -9.82f;
             s0 = new Vector2(ballRect.X, ballRect.Y);
@@ -67,10 +64,12 @@ namespace FysikLabb0 {
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             //gravitation *= dTime;
             v.X = v0.X; //Lägg till luftmotstånd?
-            v.Y = v0.Y + (gravitation*time);
+            v.Y = v0.Y + (gravitation);
 
-            s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
-            s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
+            //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
+            //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
+            s.X += v.X / frameMovement;
+            s.Y += v.Y / frameMovement;
 
             //direction.X = (float)Math.Cos(alfaInRad);
             //direction.Y = (float)Math.Sin(alfaInRad);
@@ -91,25 +90,25 @@ namespace FysikLabb0 {
             ////Console.WriteLine("Vinkel: " + alfaInRad);
             //alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
-             if(timer >= 1) {
-                if (convertedS.X >= 1900) { //Ändra så att den ändrar X-riktning
-                    v0.X *= -1;
-                    timer = 0;
-                }
-                if (convertedS.X <= 0) { //Ändrar så att den ändrar x-riktning
-                    v0.X *= 1;
-                    timer = 0;
-                }
-                if (convertedS.Y <= 0) {
-                    v0.Y *= -1;
-                    timer = 0;
-                }
-                if (convertedS.Y >= 1000) {
-                    v0.Y *= 1;
-                    timer = 0;
-                }
+
+            if (convertedS.X >= 1900 && !isMovingLeft) { //Ändra så att den ändrar X-riktning
+                v0.X *= -1;
+                isMovingLeft = true;
             }
-            
+            if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
+                v0.X *= 1;
+                isMovingLeft = false;
+            }
+            if (convertedS.Y <= 0 && !isMovingUp) {
+                v0.Y *= -1;
+                isMovingUp = true;
+            }
+            if (convertedS.Y >= 1000 && isMovingUp) {
+                v0.Y *= 1;
+                isMovingUp = false;
+            }
+
+
             //speedB = v;
             //v.X = (massB * speedB.X + massW * speedW.X + elastG * massW * (speedW.X - speedB.X)) / (massB + massW);
             //v.Y = (massB * speedB.Y + massW * speedW.Y + elastG * massW * (speedW.Y - speedB.Y)) / (massB + massW);
