@@ -42,8 +42,8 @@ namespace FysikLabb0 {
             convertedS = new Vector2(0, 0);
             s = s0;
             timer = 0;
-            selectedSpeed = 45;
-            alfa = 45;
+            selectedSpeed = 50;
+            alfa = 50;
             isFlying = false;
             isMovingDown = true;
             isMovingUp = true;
@@ -136,11 +136,11 @@ namespace FysikLabb0 {
             if (keyState.IsKeyDown(Keys.S) && oldKeyState.IsKeyUp(Keys.S) && selectedSpeed > 10) {
                 selectedSpeed -= 10;
             }
-            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 180) {
-                alfa += 5;
+            if (keyState.IsKeyDown(Keys.E) && oldKeyState.IsKeyUp(Keys.E) && alfa < 90) {
+                alfa += 10;
             }
-            if (keyState.IsKeyDown(Keys.D) && oldKeyState.IsKeyUp(Keys.D) && alfa > 5) {
-                alfa -= 5;
+            if (keyState.IsKeyDown(Keys.D) && oldKeyState.IsKeyUp(Keys.D) && alfa > 30) {
+                alfa -= 10;
             }
 
             alfaInRad = (float)((Math.PI / 180) * alfa); //Fixar från grader till radianer
