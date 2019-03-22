@@ -14,7 +14,7 @@ namespace FysikLabb0 {
         Rectangle[] boxPos, numberPos;
 
         float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, frameMovement;
-        bool isFlying, isMovingUp, isMovingLeft;
+        bool isFlying,isMovingDown, isMovingUp, isMovingLeft, isMovingRight;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
             this.spriteSheet = spriteSheet;
@@ -28,7 +28,7 @@ namespace FysikLabb0 {
             boxPos = new Rectangle[2];
             numberPos = new Rectangle[6];
 
-            elastG = 1.5f;
+            elastG = 1.2f;
             elastV = 1;
             frameMovement = 30;
             speedB = new Vector2(0, 0);
@@ -45,6 +45,10 @@ namespace FysikLabb0 {
             selectedSpeed = 45;
             alfa = 45;
             isFlying = false;
+            isMovingDown = true;
+            isMovingUp = true;
+            isMovingLeft = true;
+            isMovingRight = true;
 
             speedBox = "Speed: " + selectedSpeed;
             alfaBox = "Angle: " + alfa;
@@ -65,12 +69,14 @@ namespace FysikLabb0 {
             //gravitation *= dTime;
             v.X = v0.X; //Lägg till luftmotstånd?
             v.Y = v0.Y;
+            gravitation -= (float)9.82 * time;
+            //v.Y += gravitation;
 
             //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
             //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
             s.X += v.X * time;
             //gravitation = (float)(9.82/timer);
-            s.Y += (v.Y) * time;
+            s.Y += (v.Y + gravitation) * time;
 
             //direction.X = (float)Math.Cos(alfaInRad);
             //direction.Y = (float)Math.Sin(alfaInRad);
@@ -92,22 +98,26 @@ namespace FysikLabb0 {
             //alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
 
-            if (convertedS.X >= 1900 && !isMovingLeft) { //Ändra så att den ändrar X-riktning
+            if (convertedS.X >= 1875 && isMovingRight) { //Ändra så att den ändrar X-riktning
                 v0.X = -v0.X;
                 isMovingLeft = true;
+                isMovingRight = false;
             }
             if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
                 v0.X = -v0.X;
                 isMovingLeft = false;
+                isMovingRight = true;
             }
-            if (convertedS.Y <= 0 && !isMovingUp) {
+            if (convertedS.Y <= 0 && isMovingUp) {
+                v0.Y = -v0.Y;
+                isMovingDown = true;
+                isMovingUp = false;
+            }
+            if (convertedS.Y >= 975 && isMovingDown) {
                 v0.Y = -v0.Y;
                 v0.Y *= elastG;
                 isMovingUp = true;
-            }
-            if (convertedS.Y >= 1000 && isMovingUp) {
-                v0.Y = -v0.Y;
-                isMovingUp = false;
+                isMovingDown = false;
             }
 
 
