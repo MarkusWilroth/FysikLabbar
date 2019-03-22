@@ -13,7 +13,7 @@ namespace FysikLabb0 {
         String speedBox, alfaBox;
         Rectangle[] boxPos, numberPos;
 
-        float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elastV, elastG, frameMovement;
+        float timer, time, offSet, gravitation, selectedSpeed, alfa, alfaInRad, calc, elast, frameMovement;
         bool isFlying,isMovingDown, isMovingUp, isMovingLeft, isMovingRight;
 
         public Ball(Texture2D spriteSheet, Rectangle ballRect, Game1 game) {
@@ -28,8 +28,8 @@ namespace FysikLabb0 {
             boxPos = new Rectangle[2];
             numberPos = new Rectangle[6];
 
-            elastG = 1.2f;
-            elastV = 1;
+            //elastG = 1f;
+            elast = 0.8f;
             frameMovement = 30;
             speedB = new Vector2(0, 0);
             speedW = new Vector2(0, 0);
@@ -67,16 +67,16 @@ namespace FysikLabb0 {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             time = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
             //gravitation *= dTime;
-            v.X = v0.X; //Lägg till luftmotstånd?
-            v.Y = v0.Y;
-            gravitation -= (float)9.82 * time;
+            //v.X = v0.X; //Lägg till luftmotstånd?
+            //v.Y = v0.Y;
+            gravitation = (float)(-9.82 * Math.Pow(timer, 2) / 2) * time;
             //v.Y += gravitation;
 
             //s.X = s0.X + (((v0.X + v.X) / 2) * time); //ekvationen som flyttar bollen
             //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
             s.X += v.X * time;
             //gravitation = (float)(9.82/timer);
-            s.Y += (v.Y) * time;
+            s.Y += (v.Y) * time + gravitation;
 
             //direction.X = (float)Math.Cos(alfaInRad);
             //direction.Y = (float)Math.Sin(alfaInRad);
@@ -98,26 +98,21 @@ namespace FysikLabb0 {
             //alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
 
-            if (convertedS.X >= 1875 && isMovingRight) { //Ändra så att den ändrar X-riktning
-                v0.X *= -1;
-                isMovingLeft = true;
-                isMovingRight = false;
+            if (convertedS.X >= 1875) { //Ändra så att den ändrar X-riktning
+                v0.X *= elast;
+                v.X = -v0.X;
             }
-            if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
-                v0.X *= -1;
-                isMovingLeft = false;
-                isMovingRight = true;
+            if (convertedS.X <= 0) { //Ändrar så att den ändrar x-riktning
+                v0.X *= elast;
+                v.X = v0.X;
             }
-            if (convertedS.Y <= 0 && isMovingUp) {
-                v0.Y *= -1;
-                isMovingDown = true;
-                isMovingUp = false;
+            if (convertedS.Y <= 0) {
+                v0.Y *= elast;
+                v.Y = -v0.Y;
             }
-            if (convertedS.Y >= 975 && isMovingDown) {
-                v0.Y *= -1;
-                v0.Y *= elastG;
-                isMovingUp = true;
-                isMovingDown = false;
+            if (convertedS.Y >= 975) {
+                v.Y = v0.Y;
+                timer = 0;
             }
 
 
@@ -156,6 +151,8 @@ namespace FysikLabb0 {
             else {
                 v0.Y = (float)(Math.Pow(((-1)* calc), 0.5));
             }
+            v.X = v0.X;
+            v.Y = v0.Y;
             
 
             speedBox = "Speed: " + selectedSpeed;
