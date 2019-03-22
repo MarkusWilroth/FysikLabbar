@@ -98,21 +98,27 @@ namespace FysikLabb0 {
             //alfaInRad = (float)Math.Atan(((s.Y - s0.Y) / (s.X - s0.X)));
 
 
-            if (convertedS.X >= 1875) { //Ändra så att den ändrar X-riktning
-                v0.X *= elast;
+            if (convertedS.X >= 1875 && isMovingRight) { //Ändra så att den ändrar X-riktning
+                v0 *= elast;
                 v.X = -v0.X;
+                isMovingRight = false;
+                isMovingLeft = true;
             }
-            if (convertedS.X <= 0) { //Ändrar så att den ändrar x-riktning
-                v0.X *= elast;
+            if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
+                v0 *= elast;
                 v.X = v0.X;
+                isMovingLeft = false;
+                isMovingRight = true;
             }
-            if (convertedS.Y <= 0) {
-                v0.Y *= elast;
+            if (convertedS.Y <= 0 && isMovingUp) {
+                v0 *= elast;
                 v.Y = -v0.Y;
+                isMovingUp = false;
             }
             if (convertedS.Y >= 975) {
                 v.Y = v0.Y;
                 timer = 0;
+                isMovingUp = true;
             }
 
 
