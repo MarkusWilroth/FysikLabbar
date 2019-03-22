@@ -76,7 +76,7 @@ namespace FysikLabb0 {
             //s.Y = s0.Y + (((v0.Y + v.Y) / 2) * time);
             s.X += v.X * time;
             //gravitation = (float)(9.82/timer);
-            s.Y += (v.Y + gravitation) * time;
+            s.Y += (v.Y) * time;
 
             //direction.X = (float)Math.Cos(alfaInRad);
             //direction.Y = (float)Math.Sin(alfaInRad);
@@ -99,22 +99,22 @@ namespace FysikLabb0 {
 
 
             if (convertedS.X >= 1875 && isMovingRight) { //Ändra så att den ändrar X-riktning
-                v0.X = -v0.X;
+                v0.X *= -1;
                 isMovingLeft = true;
                 isMovingRight = false;
             }
             if (convertedS.X <= 0 && isMovingLeft) { //Ändrar så att den ändrar x-riktning
-                v0.X = -v0.X;
+                v0.X *= -1;
                 isMovingLeft = false;
                 isMovingRight = true;
             }
             if (convertedS.Y <= 0 && isMovingUp) {
-                v0.Y = -v0.Y;
+                v0.Y *= -1;
                 isMovingDown = true;
                 isMovingUp = false;
             }
             if (convertedS.Y >= 975 && isMovingDown) {
-                v0.Y = -v0.Y;
+                v0.Y *= -1;
                 v0.Y *= elastG;
                 isMovingUp = true;
                 isMovingDown = false;
