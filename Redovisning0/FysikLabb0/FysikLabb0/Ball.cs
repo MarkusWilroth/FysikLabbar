@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿  using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -113,6 +113,7 @@ namespace FysikLabb0 {
             if (convertedS.Y <= 0 && isMovingUp) {
                 v0 *= elast;
                 v.Y = -v0.Y;
+                timer = 0;
                 isMovingUp = false;
             }
             if (convertedS.Y >= 975) {
@@ -130,7 +131,7 @@ namespace FysikLabb0 {
         }
 
         public void ChangeValues() {
-            if (keyState.IsKeyDown(Keys.W) && oldKeyState.IsKeyUp(Keys.W) && selectedSpeed < 80) {
+            if (keyState.IsKeyDown(Keys.W) && oldKeyState.IsKeyUp(Keys.W) && selectedSpeed < 200) {
                 selectedSpeed += 10;
             }
             if (keyState.IsKeyDown(Keys.S) && oldKeyState.IsKeyUp(Keys.S) && selectedSpeed > 10) {
