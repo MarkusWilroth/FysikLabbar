@@ -65,31 +65,31 @@ namespace FysikLabb0 {
             time = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f;
             gravitation = (float)(-9.82 * Math.Pow(timer, 2) / 2) * time;
             s.X += v.X * time;
-            s.Y += (v.Y * dir) * time + gravitation;
+            s.Y += (v.Y) * time + gravitation;
 
             Console.WriteLine("sträckaX: " + s.X + " SträckaY: "+s.Y);
 
 
             if (convertedS.X >= 1875 && isMovingRight) { //Ändra så att den ändrar X-riktning
-                v *= elast;
+                v.X *= elast;
                 v.X = -v.X;
                 isMovingRight = false;
             }
             if (convertedS.X <= 0 && !isMovingRight) { //Ändrar så att den ändrar x-riktning
-                v *= elast;
+                v.X *= elast;
                 v.X = -v.X;
                 isMovingRight = true;
             }
-            if (convertedS.Y <= 0 && isMovingUp) {
+            if (convertedS.Y <= 0 && v.Y<0) {
                 dir = -1;
-                v *= elast;
+                v.Y *= -elast;
                 //v.Y *= dir;
                 timer = 0;
                 isMovingUp = false;
             }
-            if (convertedS.Y >= 975) {
+            if (convertedS.Y >= 975 && v.Y>0) {
                 dir = 1;
-                //v.Y *= dir;
+                v.Y *= -1;
                 timer = 0;
                 isMovingUp = true;
             }
